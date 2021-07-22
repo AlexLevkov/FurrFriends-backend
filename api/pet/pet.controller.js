@@ -20,8 +20,7 @@ async function getPet(req, res) {
 }
 
 
-async function getPets(req, res) {
-    console.log('pets')
+async function getPets(req, res) {    
     try {
         const pets = await petService.query()
         res.send(pets)

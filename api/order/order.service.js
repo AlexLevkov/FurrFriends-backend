@@ -46,7 +46,7 @@ async function add(order) {
         created: order.created,
         orderBy: order.orderBy,
         orderFor: order.orderFor,
-        orderOwnder: order.orderOwnder,
+        orderOwner: order.orderOwner,
 
     }
     try {

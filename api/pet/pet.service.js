@@ -49,7 +49,9 @@ async function update(pet) {
             name: pet.name,
             type: pet.type,
             breed: pet.breed,
+            imgUrl: pet.imgUrl,
             gender: pet.gender,
+            likes: pet.likes,
             age: pet.age,
             size: pet.size,
             color: pet.color,
@@ -60,9 +62,14 @@ async function update(pet) {
             isCastrated: pet.isCastrated,
             isBirthCertificate: pet.isBirthCertificate,
             bio: pet.bio,
+            owner: {
+                _id: pet.owner._id,
+                fullname: pet.owner.fullname
+            }
         }
         const collection = await dbService.getCollection('pet')
         await collection.updateOne({ '_id': petToSave._id }, { $set: petToSave })
+        console.log('petToSave:', petToSave)
         return petToSave
     } catch (err) {
         logger.error(`cannot update pet ${pet._id}`, err)
@@ -76,6 +83,8 @@ async function add(pet) {
         type: pet.type,
         breed: pet.breed,
         gender: pet.gender,
+        imgUrl: pet.imgUrl,
+        likes: 1,
         age: pet.age,
         size: pet.size,
         color: pet.color,
@@ -86,6 +95,10 @@ async function add(pet) {
         isCastrated: pet.isCastrated,
         isBirthCertificate: pet.isBirthCertificate,
         bio: pet.bio,
+        owner: {
+            _id: pet.owner._id,
+            fullname: pet.owner.fullname
+        }
     }
     try {
         const collection = await dbService.getCollection('pet')
