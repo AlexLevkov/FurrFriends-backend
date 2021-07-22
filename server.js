@@ -27,6 +27,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const authRoutes = require('./api/auth/auth.routes')
+const petRoutes = require('./api/pet/pet.routes')
 const userRoutes = require('./api/user/user.routes')
 const { connectSockets } = require('./services/socket.service')
 
@@ -35,6 +36,7 @@ const setupAsyncLocalStorage = require('./middlewares/setupAls.middleware')
 app.all('*', setupAsyncLocalStorage)
 
 app.use('/api/auth', authRoutes)
+app.use('/api/pet', petRoutes)
 app.use('/api/user', userRoutes)
 connectSockets(http, session)
 
