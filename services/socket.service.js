@@ -18,11 +18,24 @@ function connectSockets(http, session) {
             socket.join(topic)
             socket.myTopic = topic
         })
+        // socket.on('order room', room => {
+        //     if (socket.myRoom === room) return;
+        //     socket.join(room)
+        //     socket.myRoom = room
+        // })        
         socket.on('chat newMsg', msg => {
             // emits to all sockets:
             // gIo.emit('chat addMsg', msg)
             // emits only to sockets in the same room
             gIo.to(socket.myTopic).emit('chat addMsg', msg)
+        })
+        socket.on('orderAdded', order => {
+            const orderPass = {
+                type: 'newOrder',
+                data: order,
+                userId: order.orderOwner._id
+            }
+            emitToUser(orderPass)
         })
         socket.on('user-watch', userId => {
             socket.join('watching:' + userId)
@@ -30,6 +43,11 @@ function connectSockets(http, session) {
         socket.on('set-user-socket', userId => {
             logger.debug(`Setting socket.userId = ${userId}`)
             socket.userId = userId
+        })
+        socket.on('login', userId => {
+            logger.debug(`Setting socket.userId = ${userId}`)
+            socket.userId = userId
+            socket.join(ownerId)
         })
         socket.on('unset-user-socket', () => {
             delete socket.userId
@@ -44,7 +62,7 @@ function emitTo({ type, data, label }) {
 }
 
 function emitToUser({ type, data, userId }) {
-    logger.debug('Emiting to user socket: ' + userId)
+    logger.debug('Emiting to user socket: ' + userId)    
     const socket = _getUserSocket(userId)
     if (socket) socket.emit(type, data)
     else {
