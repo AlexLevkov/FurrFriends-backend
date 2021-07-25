@@ -37,6 +37,23 @@ function connectSockets(http, session) {
             }
             emitToUser(orderPass)
         })
+
+        socket.on('order approved', pet => {
+            const orderPass = {
+                type: 'newOrder',
+                data: pet,
+                userId: pet.owner._id
+            }
+            emitToUser(orderPass)
+            
+            const userMsg = {
+                type: 'user msg',
+                data: 'Your request for: ' + pet.name + ' adoption has been approved!',
+                userId: pet.owner._id
+            }
+            emitToUser(userMsg)
+
+        })
         socket.on('user-watch', userId => {
             socket.join('watching:' + userId)
         })
@@ -47,7 +64,6 @@ function connectSockets(http, session) {
         socket.on('login', userId => {
             logger.debug(`Setting socket.userId = ${userId}`)
             socket.userId = userId
-            socket.join(ownerId)
         })
         socket.on('unset-user-socket', () => {
             delete socket.userId
@@ -62,7 +78,7 @@ function emitTo({ type, data, label }) {
 }
 
 function emitToUser({ type, data, userId }) {
-    logger.debug('Emiting to user socket: ' + userId)    
+    logger.debug('Emiting to user socket: ' + userId)
     const socket = _getUserSocket(userId)
     if (socket) socket.emit(type, data)
     else {
