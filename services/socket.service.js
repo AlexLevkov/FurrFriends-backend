@@ -37,6 +37,23 @@ function connectSockets(http, session) {
             }
             emitToUser(orderPass)
         })
+
+        socket.on('order approved', pet => {
+            const orderApprove = {
+                type: 'newOrder',
+                data: pet,
+                userId: pet.owner._id
+            }
+            emitToUser(orderApprove)
+            
+            const userMsg = {
+                type: 'user msg',
+                data: 'Your request for: ' + pet.name + ' adoption has been approved!',
+                userId: pet.owner._id
+            }
+            emitToUser(userMsg)
+
+        })
         socket.on('user-watch', userId => {
             socket.join('watching:' + userId)
         })
