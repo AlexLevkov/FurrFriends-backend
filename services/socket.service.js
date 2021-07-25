@@ -47,7 +47,6 @@ function connectSockets(http, session) {
         socket.on('login', userId => {
             logger.debug(`Setting socket.userId = ${userId}`)
             socket.userId = userId
-            socket.join(ownerId)
         })
         socket.on('unset-user-socket', () => {
             delete socket.userId
@@ -62,7 +61,7 @@ function emitTo({ type, data, label }) {
 }
 
 function emitToUser({ type, data, userId }) {
-    logger.debug('Emiting to user socket: ' + userId)    
+    logger.debug('Emiting to user socket: ' + userId)
     const socket = _getUserSocket(userId)
     if (socket) socket.emit(type, data)
     else {
