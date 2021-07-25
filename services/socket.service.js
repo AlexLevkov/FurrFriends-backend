@@ -39,12 +39,12 @@ function connectSockets(http, session) {
         })
 
         socket.on('order approved', pet => {
-            const orderPass = {
+            const orderApprove = {
                 type: 'newOrder',
                 data: pet,
                 userId: pet.owner._id
             }
-            emitToUser(orderPass)
+            emitToUser(orderApprove)
             
             const userMsg = {
                 type: 'user msg',
