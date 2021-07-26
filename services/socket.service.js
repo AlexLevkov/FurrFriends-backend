@@ -38,14 +38,19 @@ function connectSockets(http, session) {
             emitToUser(orderPass)
         })
 
+
         socket.on('order approved', pet => {
+
+
+            console.log('pet', pet);
+
             const orderApprove = {
                 type: 'newOrder',
                 data: pet,
                 userId: pet.owner._id
             }
             emitToUser(orderApprove)
-            
+
             const userMsg = {
                 type: 'user msg',
                 data: 'Your request for: ' + pet.name + ' adoption has been approved!',
@@ -53,6 +58,20 @@ function connectSockets(http, session) {
             }
             emitToUser(userMsg)
 
+            const userMsg2 = {
+                type: 'special',
+                data: 'Your request for: ' + pet.name + ' adoption has been approved!',
+                userId: pet.owner._id
+            }
+
+            setTimeout(() => {
+                emitToUser(userMsg2)
+
+            }, 1000);
+
+
+            // socket.emit()
+            // gIo.emit('order approved')
         })
         socket.on('user-watch', userId => {
             socket.join('watching:' + userId)

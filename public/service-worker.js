@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.968ce8240147ef60f9103f9168d7452b.js"
+  "/precache-manifest.e55be974784bafde9cfb8cee193cacbb.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "furr-friends"});
