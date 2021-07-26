@@ -14,10 +14,10 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.dc802873594787c9deabde99d8ce8738.js"
+  "/precache-manifest.968ce8240147ef60f9103f9168d7452b.js"
 );
 
-workbox.core.setCacheNameDetails({prefix: "front"});
+workbox.core.setCacheNameDetails({prefix: "furr-friends"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
